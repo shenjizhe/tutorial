@@ -1,23 +1,24 @@
 import scrapy
 
 
-class MixSpider(scrapy.Spider):
-    name = 'mix-spider'
-    start_urls = [
-        'http://quotes.toscrape.com/',
-    ]
+class AuthorSpider(scrapy.Spider):
+    name = 'a-spider'
 
-    def parse(self, response, **kwargs):
-        author_urls = response.css('.author + a')
-        yield from response.follow_all(author_urls, self.parse_author)
-        urls = response.css('li.next a')
-        yield from response.follow_all(urls, self.parse)
+    start_urls = ['http://quotes.toscrape.com/']
+
+    def parse(self, response):
+        author_page_links = response.css('.author + a')
+        yield from response.follow_all(author_page_links, self.parse_author)
+
+        pagination_links = response.css('li.next a')
+        yield from response.follow_all(pagination_links, self.parse)
 
     def parse_author(self, response):
-        def extract_data(query):
+        def extract_with_css(query):
             return response.css(query).get(default='').strip()
 
         yield {
-            'author': extract_data('h3.author-title::text'),
-            'birth': extract_data('.author-born-date::text'),
+            'name': extract_with_css('h3.author-title::text'),
+            'birthdate': extract_with_css('.author-born-date::text'),
+            'bio': extract_with_css('.author-description::text'),
         }
