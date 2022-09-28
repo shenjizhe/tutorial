@@ -14,10 +14,10 @@ class MixSpider(scrapy.Spider):
         yield from response.follow_all(urls, self.parse)
 
     def parse_author(self, response):
-        def extract(query):
+        def extract_data(query):
             return response.css(query).get(default='').strip()
 
         yield {
-            'name': extract('h3.author-title::text'),
-            'birth': extract('.author-born-date::text'),
+            'author': extract_data('h3.author-title::text'),
+            'birth': extract_data('.author-born-date:text'),
         }
