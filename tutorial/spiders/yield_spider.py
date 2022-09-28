@@ -8,7 +8,7 @@ class YieldScrapy(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for quote in response.xpath("//div[@class=''quote]"):
+        for quote in response.css("dic.quote"):
             author = quote.css("small.author::text").get()
             text = quote.css("span.text::text").get()
             tags = quote.css("div.tags a.tag::text").get()
