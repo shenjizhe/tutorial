@@ -13,5 +13,5 @@ class YieldScrapy(scrapy.Spider):
             yield {
                 'author': quote.css("small.author::text").get(),
                 'text': quote.css("span.text::text").get(),
-                'tags': quote.css("div.tags a.tag::text").getall()
+                'tags': quote.css("div.tags a.tag::text").getall(),
             }
