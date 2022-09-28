@@ -20,5 +20,4 @@ class MixSpider(scrapy.Spider):
         yield {
             'name': extract('h3.author-title::text'),
             'birth': extract('.author-born-date::text'),
-            'description': extract('.author-description::text'),
         }
