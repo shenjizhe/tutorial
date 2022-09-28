@@ -13,4 +13,4 @@ class ShortcutSpider(scrapy.Spider):
                 'text': quote.css('span.text::text').get(),
                 'author': quote.css('small.author::text').get(),
             }
-            yield response.follow_all(css='li.next a', callback=self.parse)
+            yield response.follow_all(css='ul.pager a', callback=self.parse)
