@@ -8,7 +8,7 @@ class MixSpider(scrapy.Spider):
     ]
 
     def parse(self, response, **kwargs):
-        author_urls = response.css('.author +a')
+        author_urls = response.css('.author + a')
         yield from response.follow_all(author_urls, self.parse_author)
         urls = response.css('li.next a')
         yield from response.follow_all(urls, self.parse)
