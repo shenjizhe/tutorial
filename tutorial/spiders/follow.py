@@ -1,0 +1,19 @@
+import scrapy
+
+
+class FollowSpider(scrapy.Spider):
+    name = 'follow-spider'
+    start_urls = [
+        'http://quotes.toscrape.com/page/1/',
+    ]
+
+    def parse(self, response, **kwargs):
+        for quote in response.css('div.quote')
+            yield {
+                'text': quote.css('span.text::text').get(),
+                'author': quote.css('small.author::text').get(),
+            }
+
+            next_page = response.css('li.next a.attr(hred)').get()
+            if next_page is not None:
+                yield response.follow(next_page, self.parse)
